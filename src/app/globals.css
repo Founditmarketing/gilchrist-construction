@@ -1,0 +1,9 @@
+@import "tailwindcss";
+
+/* Asphalt base so there's no white flash before .gc-scope paints and overscroll
+   stays dark. The full atmospheric canvas (radial glows) lives in gilchrist.css
+   on .gc-scope, which is applied to <body> and covers the page. */
+html {
+  background: #08090a;
+  color-scheme: dark;
+}

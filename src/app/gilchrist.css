@@ -1,0 +1,501 @@
+/* ─────────────────────────────────────────────────────────────────────────
+   Gilchrist Construction Company — "Centerline" design system.
+   Scoped under .gc-scope so it never touches the Chill Mini Splits app or the
+   AA Western / DJ's / Simpson's routes that share this project.
+
+   The concept: the work itself, made monumental. An asphalt-black canvas, warm
+   concrete daylight bands, structural hairlines, and a SINGLE DOT safety-yellow
+   — the color of a centerline stripe and hi-vis gear — reserved for the spine,
+   the live data, and the primary action. One organizing device threads the
+   whole page: a literal highway centerline, drawn down the scroll, marked with
+   surveyor station numbers (STA 0+00, STA 12+50…) as section eyebrows. Display
+   type is set in a condensed engineered grotesque, UPPERCASE, like highway
+   signage; spec numerals sit in mono, the way a survey instrument prints them.
+   ───────────────────────────────────────────────────────────────────────── */
+
+/* ─── Lenis smooth-scroll (active only while GcSmoothScroll is mounted on
+   /gilchrist; these html.lenis rules are inert on every other route). ─── */
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
+.lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-stopped { overflow: hidden; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+
+.gc-scope {
+  /* Surfaces — wet asphalt, darkened to near-black. Warm, not punitive. */
+  --gc-ground: #0c0e0f;        /* primary page ground */
+  --gc-panel: #14171a;         /* elevated surface / card */
+  --gc-panel-2: #1c2024;       /* raised tile */
+  --gc-inset: #0f1214;         /* quiet inset band */
+
+  /* Daylight — poured concrete, for the trust / safety bands */
+  --gc-concrete: #e9e7e1;
+  --gc-concrete-2: #d7d4cd;
+  --gc-on-concrete: #16191b;
+  --gc-on-concrete-muted: #434a4e;  /* ~7:1 on the concrete band (was 5.3:1) */
+
+  /* Text — warm off-white on the asphalt ground */
+  --gc-text: #f2f1ed;          /* primary, ~16:1 on ground */
+  --gc-text-muted: #a8aaa6;    /* secondary / captions, ~8.5:1 */
+  --gc-text-faint: #80848a;    /* meta text — 5.15:1 on ground, 4.79:1 on panel (both AA) */
+  --gc-text-faint-input: #8b9097; /* placeholder color — 5:1 on panel-2 #1c2024 (AA) */
+
+  /* The one accent — DOT safety yellow. Centerline, live data, primary CTA. */
+  --gc-hi: #43ae2a;
+  --gc-hi-bright: #5cc93d;
+  --gc-hi-deep: #2e7d2e;
+  --gc-hi-glow: rgba(67, 174, 42, 0.5);
+
+  /* A cool steel secondary, used ONLY for the "career" door so the two front
+     doors are visibly distinct. Never as a third decorative color. */
+  --gc-steel: #6ea2c4;
+
+  /* Lines — cool hairlines on asphalt, like lane seams and form lines */
+  --gc-line: rgba(242, 241, 237, 0.07);
+  --gc-line-strong: rgba(242, 241, 237, 0.15);
+
+  --gc-radius: 3px;            /* tight, precise — drafted, not rounded */
+
+  /* Atmospheric canvas: asphalt base lit by a faint sodium-vapor glow high
+     overhead and a cool steel fill low. Transparent sections reveal it — this
+     is the page's ambient lighting, not a flat fill. */
+  background:
+    radial-gradient(1100px 760px at 78% -14%, rgba(67, 174, 42, 0.06), transparent 56%),
+    radial-gradient(900px 720px at 4% 106%, rgba(110, 162, 196, 0.05), transparent 55%),
+    #08090a;
+  /* No background-attachment:fixed — it forces a full-viewport repaint every
+     scroll frame on mobile (the jank removed from the sibling Simpsons route).
+     overflow-x:clip guards against any stray horizontal overflow / white sides. */
+  overflow-x: clip;
+  color: var(--gc-text);
+  font-family: var(--gc-body), system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.gc-scope ::selection {
+  background: var(--gc-hi);
+  color: #0c0e0f;
+}
+
+/* ─── Type ─── Saira Condensed is the highway-sign headline; Geist is the
+   workhorse; Geist Mono is the surveyor's spec layer (stations, data, NAP). ─ */
+.gc-scope h1,
+.gc-scope h2,
+.gc-scope h3,
+.gc-scope h4,
+.gc-display {
+  font-family: var(--gc-display), "Arial Narrow", system-ui, sans-serif;
+  font-weight: 700;
+  text-transform: uppercase;
+  line-height: 0.94;
+  letter-spacing: 0.005em;
+}
+
+.gc-scope .gc-display-xl {
+  font-size: clamp(2.9rem, 8.6vw, 7.4rem);
+  line-height: 0.86;
+  letter-spacing: 0.002em;
+  font-weight: 800;
+}
+.gc-scope .gc-display-lg {
+  font-size: clamp(2rem, 4.4vw, 3.4rem);
+  line-height: 0.92;
+}
+.gc-scope .gc-display-md {
+  font-size: clamp(1.4rem, 2.6vw, 2.05rem);
+  line-height: 0.98;
+}
+/* Yellow accent for the word(s) that carry the weight inside a headline. */
+.gc-scope .gc-hot { color: var(--gc-hi); }
+
+/* Geist Mono — the survey layer: stations, coordinates, data, phone, NAP. */
+.gc-mono {
+  font-family: var(--gc-mono), ui-monospace, "SF Mono", Menlo, monospace;
+  font-feature-settings: "tnum" 1;
+}
+
+/* Station eyebrow / kicker — the signature device. Rationed (≈1 per section). */
+.gc-station {
+  font-family: var(--gc-mono), ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.22em;
+  font-weight: 500;
+  font-size: 0.7rem;
+  color: var(--gc-hi);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+/* The little square tick that precedes a station label. */
+.gc-station::before {
+  content: "";
+  width: 0.5rem;
+  height: 0.5rem;
+  background: var(--gc-hi);
+  box-shadow: 0 0 12px var(--gc-hi-glow);
+}
+
+/* A calmer station annotation for the lower-page sections — keeps the surveyor
+   language without the bright amber tick competing for attention. The strong
+   .gc-station stays up top; the page gets quieter and more premium as it ends. */
+.gc-station-quiet {
+  font-family: var(--gc-mono), ui-monospace, monospace;
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-weight: 500;
+  font-size: 0.6rem;
+  color: var(--gc-text-faint);
+}
+
+.gc-body-lg {
+  font-size: clamp(1.02rem, 1.2vw, 1.18rem);
+  line-height: 1.65;
+  color: var(--gc-text-muted);
+}
+
+/* ─── Focus ─── visible ring for keyboard users (WCAG 2.4.7) ─── */
+.gc-focus:focus-visible {
+  outline: 2px solid var(--gc-hi-bright);
+  outline-offset: 3px;
+  border-radius: 3px;
+}
+
+/* Map pin keyboard focus ring (SVG). The .gc-pin-ring <circle> is invisible
+   until its parent .gc-pin <g> matches :focus-visible — gives keyboard users a
+   clear focus indicator the bare selection-stroke didn't (WCAG 2.4.7). */
+.gc-scope .gc-pin { outline: none; }
+.gc-pin-ring { opacity: 0; transition: opacity 0.15s ease; }
+.gc-scope .gc-pin:focus-visible .gc-pin-ring { opacity: 1; }
+
+/* ─── Buttons ─── two front doors. The "bid" door is the one yellow fill on the
+   page; the "career" door is a steel-outlined sibling so the fork reads. ─── */
+.gc-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  font-family: var(--gc-body), sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.95rem 1.5rem;
+  border-radius: var(--gc-radius);
+  white-space: nowrap;
+  cursor: pointer;
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.22s ease, border-color 0.22s ease, box-shadow 0.22s ease,
+    color 0.22s ease;
+  will-change: transform;
+}
+.gc-btn:active { transform: translateY(1px) scale(0.99); }
+
+/* Hi-vis: brand-green fill with near-black text (~10:1) — reads like a road sign. */
+.gc-btn-primary {
+  background: linear-gradient(135deg, #5cc93d 0%, #2e8b26 100%);
+  color: #160f00;
+  border: 1px solid rgba(124, 224, 96, 0.55);
+  box-shadow: 0 8px 26px -8px var(--gc-hi-glow), inset 0 1px 0 rgba(255, 255, 255, 0.32);
+}
+.gc-btn-primary:hover {
+  background: linear-gradient(135deg, #5cc93d 0%, #43ae2a 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 14px 36px -8px var(--gc-hi-glow), inset 0 1px 0 rgba(255, 255, 255, 0.36);
+}
+
+/* The career door — steel outline, fills on hover. Distinct from the bid door. */
+.gc-btn-steel {
+  background: transparent;
+  color: var(--gc-text);
+  border: 1px solid color-mix(in srgb, var(--gc-steel) 55%, transparent);
+}
+.gc-btn-steel:hover {
+  border-color: var(--gc-steel);
+  background: color-mix(in srgb, var(--gc-steel) 12%, transparent);
+  transform: translateY(-2px);
+}
+
+.gc-btn-ghost {
+  background: transparent;
+  color: var(--gc-text);
+  border: 1px solid var(--gc-line-strong);
+}
+.gc-btn-ghost:hover { border-color: var(--gc-hi); transform: translateY(-2px); }
+
+.gc-btn[disabled], .gc-btn[aria-disabled="true"] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ─── Form controls ─── the bid-request funnel. Dark, drafted, legible. ─── */
+.gc-label {
+  display: block;
+  font-family: var(--gc-mono), ui-monospace, monospace;
+  font-size: 0.64rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gc-text-muted);
+  margin-bottom: 0.45rem;
+}
+.gc-label .gc-req { color: var(--gc-hi); }
+
+.gc-input,
+.gc-scope textarea.gc-input,
+.gc-scope select.gc-input {
+  width: 100%;
+  background: var(--gc-panel-2);
+  border: 1px solid var(--gc-line-strong);
+  border-radius: var(--gc-radius);
+  color: var(--gc-text);
+  font-family: var(--gc-body), sans-serif;
+  font-size: 0.95rem;
+  min-height: 3rem; /* >=48px tap target (textarea grows past this via rows) */
+  padding: 0.8rem 0.9rem;
+  transition: border-color 0.18s ease, box-shadow 0.18s ease, background-color 0.18s ease;
+  -webkit-appearance: none;
+  appearance: none;
+}
+.gc-input::placeholder { color: var(--gc-text-faint-input); }
+.gc-input:hover { border-color: color-mix(in srgb, var(--gc-text-faint) 60%, transparent); }
+.gc-input:focus-visible {
+  outline: 2px solid transparent; /* visible only under forced-colors (below) */
+  outline-offset: 2px;
+  border-color: var(--gc-hi);
+  box-shadow: 0 0 0 3px var(--gc-hi-glow);
+  background: var(--gc-panel);
+}
+.gc-input[aria-invalid="true"] {
+  border-color: #ff6a5e;
+  box-shadow: 0 0 0 3px rgba(255, 106, 94, 0.22);
+}
+/* Windows High Contrast / forced-colors drops box-shadow + border-color, so the
+   bid form's only focus/error signal would vanish. Give it a real outline. */
+@media (forced-colors: active) {
+  .gc-input:focus-visible { outline-color: Highlight; }
+  .gc-input[aria-invalid="true"] { outline: 2px solid; outline-offset: 2px; }
+}
+/* Native select chevron, drawn in brand green. */
+.gc-scope select.gc-input {
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%2343ae2a' stroke-width='1.6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.9rem center;
+  padding-right: 2.2rem;
+}
+.gc-field-error {
+  margin-top: 0.35rem;
+  font-size: 0.74rem;
+  color: #ff8a80;
+}
+/* Off-screen honeypot — bots fill it, humans never see it. */
+.gc-hp {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+/* Card — a poured slab: faint top highlight catches the ambient light. */
+.gc-card {
+  background: var(--gc-panel);
+  border: 1px solid var(--gc-line);
+  border-radius: var(--gc-radius);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 16px 40px -28px rgba(0, 0, 0, 0.7);
+}
+
+.gc-hairline { height: 1px; width: 100%; background: var(--gc-line); }
+
+/* "Total Station" HUD cursor — fade the whole rig, and give the crosshair a
+   hair of instrument-smooth lag (transform only, GPU-cheap). */
+.gc-ts { transition: opacity 0.3s ease; }
+.gc-ts > * { transition: transform 0.07s linear; }
+
+/* ─── Sector cards ─── a slow, heavy hover that mimics the weight of machinery:
+   the slab lifts on a confident curve while the image scales up massively and
+   slowly (1.1s), brightening like sun catching steel. Pure CSS — no WebGL, so
+   it's free on the low-power phones a field crew actually carries. ─── */
+.gc-cap {
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.5s ease, box-shadow 0.5s ease;
+  will-change: transform;
+}
+.gc-cap:hover {
+  transform: translateY(-6px);
+  border-color: var(--gc-line-strong);
+  box-shadow: 0 28px 64px -32px rgba(0, 0, 0, 0.85), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+.gc-cap-img {
+  /* Cohesive cinematic grade — a touch of contrast, slightly desaturated and
+     gently darkened — so AI-generated and harvested photos read as ONE graded
+     system instead of a mix of stock looks. */
+  filter: contrast(1.05) saturate(0.95) brightness(0.96);
+  transition: transform 1.1s cubic-bezier(0.16, 1, 0.3, 1), filter 0.8s ease;
+  will-change: transform;
+}
+.gc-cap:hover .gc-cap-img { transform: scale(1.08); filter: contrast(1.05) saturate(1.05) brightness(1.05); }
+
+/* Same grade for content photos outside the capability tiles (projects, careers,
+   bridge crew), so the whole page's imagery feels like one cinematic shoot. */
+.gc-img { filter: contrast(1.05) saturate(0.95) brightness(0.97); }
+@media (prefers-reduced-motion: reduce) {
+  .gc-cap, .gc-cap-img { transition: none; }
+  .gc-cap:hover { transform: none; }
+  .gc-cap:hover .gc-cap-img { transform: none; filter: none; }
+}
+
+/* ─── Asphalt hazard band ─── diagonal safety striping. Used ONCE, on the
+   careers CTA, to feel like a work-zone edge. Cheap repeating gradient. ─── */
+.gc-hazard {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    rgba(67, 174, 42, 0.14) 0,
+    rgba(67, 174, 42, 0.14) 14px,
+    transparent 14px,
+    transparent 28px
+  );
+}
+
+/* The footprint map — the section's centerpiece. Inner vignette + drop shadow
+   lift it off the ground into a "lit table" object. No amber rim: the pins stay
+   the only amber inside the frame. (Overlays/controls carry z-10 over ::after.) */
+.gc-scope .gc-map-frame {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.04),
+    0 24px 70px -34px rgba(0, 0, 0, 0.85);
+}
+.gc-scope .gc-map-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: radial-gradient(120% 100% at 60% 30%, transparent 58%, rgba(0, 0, 0, 0.32) 100%);
+  z-index: 1;
+}
+
+/* Faint engineering grid — drafting hairlines, applied to chosen sections.
+   NOTE: never put `mask-image` here — it masks the whole element (all its
+   content), not just this background, and fades entire sections to transparent.
+   The grid is faint enough (0.04 alpha) to read as drafting light without one. */
+.gc-grid-lines {
+  background-image:
+    linear-gradient(to right, rgba(242, 241, 237, 0.04) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(242, 241, 237, 0.04) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+/* Hidden scrollbar for swipeable rows (mobile). */
+.gc-noscroll { scrollbar-width: none; -ms-overflow-style: none; }
+.gc-noscroll::-webkit-scrollbar { display: none; }
+
+/* ─── Cinematic depth ─── filmic grain breaks gradient banding ─── */
+.gc-grain {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 180px 180px;
+}
+
+/* Hero atmosphere — a single sodium-vapor light high overhead, drifting slowly
+   like dusk settling. CSS, not WebGL — cheap on the phones field crews carry. */
+.gc-hero-atmos {
+  position: absolute;
+  inset: -28%;
+  z-index: -1;
+  pointer-events: none;
+  background:
+    radial-gradient(620px 520px at 70% 22%, rgba(67, 174, 42, 0.12), transparent 62%),
+    radial-gradient(560px 460px at 20% 70%, rgba(110, 162, 196, 0.08), transparent 60%),
+    radial-gradient(960px 760px at 60% 100%, rgba(12, 14, 15, 0.5), transparent 60%);
+  animation: gcDrift 34s ease-in-out infinite alternate;
+  will-change: transform;
+}
+@keyframes gcDrift {
+  0% { transform: translate3d(-2%, -1.5%, 0) scale(1.04); }
+  100% { transform: translate3d(3%, 2.5%, 0) scale(1.12); }
+}
+
+/* Localized warm halo bleeding from a block (e.g. the bridge photo). */
+.gc-glow::before {
+  content: "";
+  position: absolute;
+  inset: -28% -20%;
+  z-index: -1;
+  pointer-events: none;
+  background: radial-gradient(closest-side, rgba(67, 174, 42, 0.16), transparent 76%);
+  filter: blur(8px);
+}
+
+/* Live "now hiring / open" pulse — the one continuously-moving status element. */
+@keyframes gcPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(94, 209, 132, 0.45); }
+  50% { box-shadow: 0 0 0 5px rgba(94, 209, 132, 0); }
+}
+.gc-pulse { animation: gcPulse 2.6s ease-in-out infinite; }
+
+/* Skip link — off-screen until focused. */
+.gc-skip {
+  position: fixed;
+  left: 12px;
+  top: 12px;
+  z-index: 100;
+  transform: translateY(-160%);
+  background: var(--gc-hi);
+  color: #160f00;
+  font-family: var(--gc-body), sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding: 0.6rem 1rem;
+  border-radius: var(--gc-radius);
+  transition: transform 0.18s ease;
+}
+.gc-skip:focus-visible { transform: translateY(0); }
+
+/* Frosted bars (header + mobile action bar). */
+.gc-material {
+  background: rgba(10, 12, 13, 0.72);
+  -webkit-backdrop-filter: blur(18px) saturate(160%);
+  backdrop-filter: blur(18px) saturate(160%);
+}
+
+.gc-safe-bottom { padding-bottom: env(safe-area-inset-bottom, 0px); }
+.gc-safe-top { padding-top: env(safe-area-inset-top, 0px); }
+
+.gc-pressable {
+  transition: transform 0.18s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.18s ease;
+  -webkit-touch-callout: none;
+}
+@media (hover: none) and (pointer: coarse) {
+  .gc-pressable:active { transform: scale(0.96); opacity: 0.9; }
+  .gc-btn:active { transform: scale(0.96); opacity: 0.95; }
+}
+
+/* FAQ open-state: rotate the plus into a cross. */
+.gc-scope details[open] .gc-faq-ico { transform: rotate(45deg); }
+
+/* Anchor jumps clear the sticky header. */
+.gc-scope section[id] { scroll-margin-top: 88px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .gc-scope *,
+  .gc-scope *::before,
+  .gc-scope *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .gc-pulse { animation: none !important; }
+}
+
+@media (max-width: 767px) {
+  /* Clear the fixed bottom action bar so the footer's last line isn't hidden. */
+  .gc-actionbar-clear { padding-bottom: calc(70px + env(safe-area-inset-bottom, 0px)); }
+  /* On phones the footprint map is a static proof visual — kill pin tap/zoom so
+     there's no pin-hunting; the flagship swipe deck below is the touch path. */
+  .gc-scope .gc-pin { pointer-events: none !important; }
+  .gc-scope section[id] { scroll-margin-top: calc(64px + env(safe-area-inset-top, 0px)); }
+}
