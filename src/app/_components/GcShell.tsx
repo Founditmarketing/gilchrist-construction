@@ -9,12 +9,12 @@ import GcProgressRail from "./GcProgressRail";
 import GcTotalStation from "./GcTotalStation";
 import GcSmoothScroll from "./GcSmoothScroll";
 
-/** Wraps the route children with the production chrome (header, footer, rail,
- *  HUD cursor, smooth-scroll) — EXCEPT on the `/gilchrist/showcase` awards cut,
- *  which is a full-bleed immersive experience that ships none of it. */
+/** Wraps every route with the production chrome (header, footer, action bar,
+ *  HUD cursor, smooth-scroll). The station progress rail is a home-page
+ *  signature — its sections only exist on "/", so it's gated to the home. */
 export default function GcShell({ children }: { children: ReactNode }) {
   const pathname = usePathname();
-  if (pathname?.startsWith("/gilchrist/showcase")) return <>{children}</>;
+  const isHome = pathname === "/";
 
   return (
     <>
@@ -24,7 +24,7 @@ export default function GcShell({ children }: { children: ReactNode }) {
       <main id="gc-main" tabIndex={-1} className="flex-1">{children}</main>
       <GcFooter />
       <GcActionBar />
-      <GcProgressRail />
+      {isHome && <GcProgressRail />}
       <GcTotalStation />
     </>
   );

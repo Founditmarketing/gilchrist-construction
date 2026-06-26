@@ -1,5 +1,6 @@
+import Link from "next/link";
 import { MapPin, HardHat, Phone } from "@phosphor-icons/react/dist/ssr";
-import { PHONE_DISPLAY, PHONE_HREF, LOCATION, WORK_WITH_US_HREF } from "../site";
+import { PHONE_DISPLAY, PHONE_HREF, LOCATION } from "../site";
 import { Reveal } from "./Reveal";
 import GcBidForm from "./GcBidForm";
 
@@ -35,10 +36,8 @@ export default function GcContact() {
           {/* Talent door + NAP */}
           <div className="flex flex-col gap-4">
             <Reveal delay={0.06}>
-              <a
-                href={WORK_WITH_US_HREF}
-                target="_blank"
-                rel="noopener noreferrer"
+              <Link
+                href="/careers"
                 className="gc-focus group flex items-center gap-4 gc-card p-6 transition-colors hover:border-[var(--gc-line-strong)]"
               >
                 <span className="text-[var(--gc-steel)]"><HardHat size={22} weight="fill" aria-hidden="true" /></span>
@@ -48,7 +47,7 @@ export default function GcContact() {
                     View open roles &rarr;
                   </span>
                 </div>
-              </a>
+              </Link>
             </Reveal>
 
             <Reveal delay={0.12}>

@@ -29,7 +29,7 @@ export default function GcActionBar() {
           <Phone size={18} weight="fill" aria-hidden="true" />
           Call
         </a>
-        <a href="#contact" className="gc-btn gc-btn-primary gc-focus flex-[1.4] !py-3.5 text-[0.92rem]">
+        <a href="/contact" className="gc-btn gc-btn-primary gc-focus flex-[1.4] !py-3.5 text-[0.92rem]">
           <Briefcase size={18} weight="fill" aria-hidden="true" />
           Request a bid
         </a>

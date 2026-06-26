@@ -133,12 +133,12 @@ export default function GcHero() {
           className="mt-10 flex flex-col gap-4 sm:mt-12 sm:flex-row sm:items-center sm:gap-5"
         >
           <Magnetic className="w-full sm:w-auto" strength={0.34}>
-            <a href="#contact" className="gc-btn gc-btn-primary gc-focus w-full !py-[1.05rem] text-base sm:w-auto sm:!px-8">
+            <a href="/contact" className="gc-btn gc-btn-primary gc-focus w-full !py-[1.05rem] text-base sm:w-auto sm:!px-8">
               Request a bid
               <ArrowRight size={18} weight="bold" aria-hidden="true" />
             </a>
           </Magnetic>
-          <a href="#careers" className="gc-btn gc-btn-steel gc-focus w-full !py-[1.05rem] sm:w-auto sm:!px-7">
+          <a href="/careers" className="gc-btn gc-btn-steel gc-focus w-full !py-[1.05rem] sm:w-auto sm:!px-7">
             <HardHat size={19} weight="fill" aria-hidden="true" />
             View open roles
           </a>

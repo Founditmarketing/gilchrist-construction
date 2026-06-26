@@ -10,11 +10,8 @@ const SECTIONS = [
   { id: "top", sta: "0+00", label: "Start" },
   { id: "capabilities", sta: "4+20", label: "What we build" },
   { id: "map", sta: "8+10", label: "Built Louisiana" },
-  { id: "projects", sta: "12+00", label: "Projects" },
-  { id: "bridges", sta: "16+50", label: "Bridges" },
   { id: "careers", sta: "20+00", label: "Careers" },
-  { id: "credibility", sta: "26+40", label: "Why Gilchrist" },
-  { id: "contact", sta: "34+80", label: "Contact" },
+  { id: "start", sta: "34+80", label: "Start here" },
 ];
 
 // The final station (34+80) = 34.80 station-units; the live readout maps scroll

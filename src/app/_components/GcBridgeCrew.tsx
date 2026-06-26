@@ -90,7 +90,7 @@ export default function GcBridgeCrew() {
             ))}
           </dl>
 
-          <a href="#careers" className="gc-btn gc-btn-primary gc-focus mt-10 !py-[1.05rem] sm:!px-7">
+          <a href="/careers" className="gc-btn gc-btn-primary gc-focus mt-10 !py-[1.05rem] sm:!px-7">
             View open roles
             <ArrowRight size={18} weight="bold" aria-hidden="true" />
           </a>

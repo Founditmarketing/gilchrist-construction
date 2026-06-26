@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { FacebookLogo, LinkedinLogo } from "@phosphor-icons/react/dist/ssr";
 import {
   BUSINESS_NAME, BUSINESS_LEGAL, PHONE_DISPLAY, PHONE_HREF, LOCATION, SOCIAL,
@@ -5,12 +6,11 @@ import {
 } from "../site";
 
 const NAV = [
-  { label: "What we build", href: "#capabilities" },
-  { label: "Built Louisiana", href: "#map" },
-  { label: "Bridges", href: "#bridges" },
-  { label: "Careers", href: "#careers" },
-  { label: "Why Gilchrist", href: "#credibility" },
-  { label: "Contact", href: "#contact" },
+  { label: "What we build", href: "/what-we-build" },
+  { label: "Projects", href: "/projects" },
+  { label: "Careers", href: "/careers" },
+  { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export default function GcFooter() {
@@ -56,9 +56,9 @@ export default function GcFooter() {
             <ul className="space-y-2.5">
               {NAV.map((n) => (
                 <li key={n.href}>
-                  <a href={n.href} className="gc-focus text-[0.9rem] text-[var(--gc-text-muted)] transition-colors hover:text-[var(--gc-text)]">
+                  <Link href={n.href} className="gc-focus text-[0.9rem] text-[var(--gc-text-muted)] transition-colors hover:text-[var(--gc-text)]">
                     {n.label}
-                  </a>
+                  </Link>
                 </li>
               ))}
             </ul>

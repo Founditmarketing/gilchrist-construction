@@ -249,7 +249,7 @@ export default function GcBuiltLouisiana() {
               </motion.div>
             </div>
 
-            <a href="#contact" className="gc-btn gc-btn-primary gc-focus !py-[1rem]">
+            <a href="/contact" className="gc-btn gc-btn-primary gc-focus !py-[1rem]">
               Put your project on this map
               <ArrowRight size={17} weight="bold" aria-hidden="true" />
             </a>
@@ -284,7 +284,7 @@ export default function GcBuiltLouisiana() {
             ))}
           </div>
           <div className="mt-7 flex flex-col gap-3">
-            <a href="#contact" className="gc-btn gc-btn-primary gc-focus !py-[1.05rem]">
+            <a href="/contact" className="gc-btn gc-btn-primary gc-focus !py-[1.05rem]">
               Put your project on this map
               <ArrowRight size={17} weight="bold" aria-hidden="true" />
             </a>

@@ -338,6 +338,6 @@ export const FAQ: { q: string; a: string; cta?: { label: string; href: string; e
   {
     q: "Are you hiring?",
     a: "Continuously. Gilchrist is growing across Louisiana — operators, CDL drivers, bridge crews, foremen and more.",
-    cta: { label: "View open roles", href: WORK_WITH_US_HREF, external: true },
+    cta: { label: "View open roles", href: "/careers" },
   },
 ];

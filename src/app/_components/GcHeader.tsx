@@ -2,15 +2,14 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { Phone, List, X, ArrowRight, HardHat } from "@phosphor-icons/react";
-import { PHONE_DISPLAY, PHONE_HREF, WORK_WITH_US_HREF } from "../site";
+import { PHONE_DISPLAY, PHONE_HREF } from "../site";
 
 const NAV = [
-  { label: "What we build", href: "#capabilities" },
-  { label: "Built Louisiana", href: "#map" },
-  { label: "Projects", href: "#projects" },
-  { label: "Bridges", href: "#bridges" },
-  { label: "Careers", href: "#careers" },
+  { label: "What we build", href: "/what-we-build" },
+  { label: "Projects", href: "/projects" },
+  { label: "About", href: "/about" },
 ];
 
 export default function GcHeader() {
@@ -44,9 +43,7 @@ export default function GcHeader() {
       }`}
     >
       <div className="mx-auto flex h-16 w-full max-w-7xl items-center justify-between px-4 sm:px-6">
-        {/* Brand logo — the real Gilchrist mark (silver G-badge + white wordmark,
-            built for a dark header). */}
-        <a href="#top" onClick={() => setOpen(false)} className="gc-focus flex items-center" aria-label="Gilchrist Construction Company — home">
+        <Link href="/" onClick={() => setOpen(false)} className="gc-focus flex items-center" aria-label="Gilchrist Construction Company — home">
           <Image
             src="/gilchrist/brand/main-logo.png"
             alt="Gilchrist Construction Company"
@@ -55,25 +52,25 @@ export default function GcHeader() {
             priority
             className="h-8 w-auto sm:h-9"
           />
-        </a>
+        </Link>
 
         {/* Desktop nav */}
         <nav className="hidden items-center gap-7 md:flex" aria-label="Primary">
           {NAV.map((n) => (
-            <a key={n.href} href={n.href} className="gc-focus text-[0.9rem] font-medium text-[var(--gc-text-muted)] transition-colors hover:text-[var(--gc-text)]">
+            <Link key={n.href} href={n.href} className="gc-focus text-[0.9rem] font-medium text-[var(--gc-text-muted)] transition-colors hover:text-[var(--gc-text)]">
               {n.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
-        {/* Desktop actions */}
+        {/* Desktop actions — the two doors */}
         <div className="hidden items-center gap-2.5 md:flex">
           <a href={PHONE_HREF} className="gc-focus hidden items-center gap-2 text-[var(--gc-text-muted)] transition-colors hover:text-[var(--gc-text)] lg:inline-flex">
             <Phone size={16} weight="fill" className="text-[var(--gc-hi)]" aria-hidden="true" />
             <span className="gc-mono text-[0.82rem]">{PHONE_DISPLAY}</span>
           </a>
-          <a href={WORK_WITH_US_HREF} target="_blank" rel="noopener noreferrer" className="gc-btn gc-btn-steel gc-focus !px-4 !py-2 text-[0.85rem]">View open roles</a>
-          <a href="#contact" className="gc-btn gc-btn-primary gc-focus !px-4 !py-2 text-[0.85rem]">Request a bid</a>
+          <Link href="/careers" className="gc-btn gc-btn-steel gc-focus !px-4 !py-2 text-[0.85rem]">Careers</Link>
+          <Link href="/contact" className="gc-btn gc-btn-primary gc-focus !px-4 !py-2 text-[0.85rem]">Request a bid</Link>
         </div>
 
         {/* Mobile actions — persistent tap-to-call + menu toggle */}
@@ -99,17 +96,17 @@ export default function GcHeader() {
         id="gc-mobile-menu"
         ref={menuRef}
         className={`gc-material overflow-hidden border-b border-[var(--gc-line)] transition-[max-height,opacity] duration-300 md:hidden ${
-          open ? "visible max-h-[80dvh] opacity-100" : "invisible pointer-events-none max-h-0 opacity-0"
+          open ? "visible max-h-[85dvh] opacity-100" : "invisible pointer-events-none max-h-0 opacity-0"
         }`}
       >
         <nav aria-label="Mobile" className="mx-auto max-w-7xl px-4 py-4">
           <ul className="divide-y divide-[var(--gc-line)]">
-            {NAV.map((n) => (
+            {[...NAV, { label: "Careers", href: "/careers" }].map((n) => (
               <li key={n.href}>
-                <a href={n.href} onClick={() => setOpen(false)} className="gc-focus flex items-center justify-between py-3.5 text-[1.05rem] text-[var(--gc-text)]">
+                <Link href={n.href} onClick={() => setOpen(false)} className="gc-focus flex items-center justify-between py-3.5 text-[1.05rem] text-[var(--gc-text)]">
                   {n.label}
                   <ArrowRight size={16} className="text-[var(--gc-text-faint)]" aria-hidden="true" />
-                </a>
+                </Link>
               </li>
             ))}
           </ul>
@@ -123,14 +120,14 @@ export default function GcHeader() {
           </a>
 
           <div className="mt-3 grid grid-cols-1 gap-2.5 pb-2">
-            <a href="#contact" onClick={() => setOpen(false)} className="gc-btn gc-btn-primary gc-focus !py-[0.95rem]">
+            <Link href="/contact" onClick={() => setOpen(false)} className="gc-btn gc-btn-primary gc-focus !py-[0.95rem]">
               Request a bid
               <ArrowRight size={17} weight="bold" aria-hidden="true" />
-            </a>
-            <a href={WORK_WITH_US_HREF} target="_blank" rel="noopener noreferrer" onClick={() => setOpen(false)} className="gc-btn gc-btn-steel gc-focus !py-[0.95rem]">
+            </Link>
+            <Link href="/careers" onClick={() => setOpen(false)} className="gc-btn gc-btn-steel gc-focus !py-[0.95rem]">
               <HardHat size={17} weight="fill" aria-hidden="true" />
               View open roles
-            </a>
+            </Link>
           </div>
         </nav>
       </div>
