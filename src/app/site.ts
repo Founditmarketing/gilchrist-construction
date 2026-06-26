@@ -97,6 +97,7 @@ export type Capability = {
   lead?: string;     // longer intro for the dedicated service page
   includes?: { title: string; body: string }[]; // sub-disciplines + descriptions (service page)
   relatedDiscipline?: Discipline; // maps to PROJECTS for the service page's related work
+  video?: string;    // optional web-optimized discipline clip for the media plate (else the still)
 };
 
 export const CAPABILITIES: Capability[] = [
@@ -134,6 +135,7 @@ export const CAPABILITIES: Capability[] = [
       { title: "Replacement & widening", body: "Removing and replacing aging structures, often staged under live traffic." },
     ],
     relatedDiscipline: "Bridges",
+    video: "/gilchrist/cap-bridges-vid.mp4",
   },
   {
     key: "concrete",
@@ -183,6 +185,7 @@ export const CAPABILITIES: Capability[] = [
       { title: "Self-performed scope", body: "The asphalt, concrete, bridge, and earthwork scope kept in-house, not handed to subs." },
     ],
     relatedDiscipline: "Interchanges",
+    video: "/gilchrist/cap-designbuild-vid.mp4",
   },
 ];
 

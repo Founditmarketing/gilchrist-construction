@@ -1,10 +1,10 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { ArrowLeft, ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import { CAPABILITIES, PROJECTS, FIGURES, STATS } from "../../site";
 import { Reveal } from "../../_components/Reveal";
+import GcMediaPlate from "../../_components/GcMediaPlate";
 import GcServiceSignature, { type ServiceSig } from "../../_components/GcServiceSignature";
 
 export function generateStaticParams() {
@@ -113,24 +113,9 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
         </div>
       </header>
 
-      {/* ── The photographic plate — the page-turn (deferred, full-bleed, honest) ── */}
-      <div className="relative h-[42vh] min-h-[300px] w-full overflow-hidden border-y border-[var(--gc-line)] sm:h-[52vh] sm:min-h-[380px]">
-        <Image
-          src={cap.img}
-          alt={`Gilchrist ${cap.name.toLowerCase()} work in Louisiana`}
-          fill
-          sizes="100vw"
-          className="gc-cap-img object-cover"
-          priority
-        />
-        <div
-          className="pointer-events-none absolute inset-0"
-          style={{ background: "linear-gradient(180deg, rgba(8,9,10,0.32) 0%, transparent 28%, transparent 66%, rgba(8,9,10,0.6) 100%)" }}
-          aria-hidden="true"
-        />
-        <p className="absolute bottom-3 left-5 gc-mono text-[0.54rem] tracking-[0.2em] text-[var(--gc-text-faint)] sm:left-8">ILLUSTRATIVE</p>
-        <p className="absolute bottom-3 right-5 gc-mono text-[0.54rem] tracking-[0.2em] text-[var(--gc-text-faint)] sm:right-8">STA 0+50</p>
-      </div>
+      {/* ── The media plate — the page-turn; plays the discipline clip where we
+            have real footage (bridges, design-build), else the still photo. ── */}
+      <GcMediaPlate img={cap.img} video={cap.video} alt={`Gilchrist ${cap.name.toLowerCase()} work in Louisiana`} />
 
       {/* ── SCOPE OF WORK · STA 1+00 — the ledger ── */}
       <section className="border-b border-[var(--gc-line)] bg-[var(--gc-ground)]">
