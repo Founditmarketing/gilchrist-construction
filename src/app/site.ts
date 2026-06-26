@@ -117,6 +117,7 @@ export const CAPABILITIES: Capability[] = [
       { title: "Milling & resurfacing", body: "Cold milling, profiling, and pavement reconstruction to bring worn corridors back to grade." },
     ],
     relatedDiscipline: "Asphalt",
+    video: "/gilchrist/cap-asphalt-vid.mp4",
   },
   {
     key: "bridges",
@@ -152,6 +153,7 @@ export const CAPABILITIES: Capability[] = [
       { title: "Mainline & ramp paving", body: "Slip-form and fixed-form paving for highway mainline, ramps, and intersections." },
       { title: "Curb, gutter & flatwork", body: "The finish work: curb and gutter, barrier, sidewalk, and structural flatwork." },
     ],
+    video: "/gilchrist/cap-concrete-vid.mp4",
   },
   {
     key: "earthwork",
