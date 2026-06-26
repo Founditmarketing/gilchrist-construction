@@ -25,6 +25,7 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const PHONE_RE = /\d[\d\s().+-]{6,}/; // at least a few digits, loosely formatted
 const s = (fd: FormData, k: string) => String(fd.get(k) ?? "").trim();
 const MAX_RESUME_BYTES = 5 * 1024 * 1024; // 5 MB
+const RESUME_EXTS = [".pdf", ".doc", ".docx", ".txt", ".rtf"];
 
 function renderEmail(v: Record<string, string>, resume: string): string {
   return [
@@ -80,32 +81,39 @@ export async function submitApplication(
   const hasPhone = PHONE_RE.test(values.phone);
   const hasEmail = EMAIL_RE.test(values.email);
   if (values.email && !hasEmail) errors.email = "That email doesn't look right.";
-  if (!hasPhone && !hasEmail) {
-    errors.phone = "A phone or email so we can reach you.";
+  if (!hasPhone && !hasEmail) errors.phone = "A phone or email so we can reach you.";
+
+  // Resume (optional) — validate type + size on the SERVER, since the accept
+  // attribute is client-only and a Server Action is reachable by direct POST.
+  let resumeMeta = "";
+  let resumeFile: File | null = null;
+  const resume = formData.get("resume");
+  if (resume && typeof resume === "object" && "arrayBuffer" in resume && (resume as File).size > 0) {
+    const file = resume as File;
+    const dot = file.name.lastIndexOf(".");
+    const ext = dot >= 0 ? file.name.slice(dot).toLowerCase() : "";
+    if (!RESUME_EXTS.includes(ext)) {
+      errors.resume = "Résumé must be a PDF, Word, text, or RTF file.";
+    } else if (file.size > MAX_RESUME_BYTES) {
+      errors.resume = "Résumé is over 5 MB — attach a smaller file or skip it.";
+    } else {
+      resumeFile = file;
+      resumeMeta = `${file.name} · ${Math.max(1, Math.round(file.size / 1024))} KB`;
+    }
   }
 
   if (Object.keys(errors).length) {
     return { status: "error", message: "Please fix the highlighted fields.", delivered: false, errors, values };
   }
 
-  // Resume (optional). Read metadata; attach if small enough and email is configured.
-  let resumeMeta = "";
   let attachment: { filename: string; content: string } | null = null;
-  const resume = formData.get("resume");
-  if (resume && typeof resume === "object" && "arrayBuffer" in resume) {
-    const file = resume as File;
-    if (file.size > 0) {
-      resumeMeta = `${file.name} · ${Math.max(1, Math.round(file.size / 1024))} KB`;
-      if (file.size <= MAX_RESUME_BYTES) {
-        try {
-          const buf = Buffer.from(await file.arrayBuffer());
-          attachment = { filename: file.name, content: buf.toString("base64") };
-        } catch (err) {
-          console.error("[gilchrist] resume read failed", err);
-        }
-      } else {
-        resumeMeta += " — too large to attach (over 5 MB)";
-      }
+  if (resumeFile) {
+    try {
+      const buf = Buffer.from(await resumeFile.arrayBuffer());
+      attachment = { filename: resumeFile.name, content: buf.toString("base64") };
+    } catch (err) {
+      console.error("[gilchrist] resume read failed", err);
+      resumeMeta += " — could not be read";
     }
   }
 

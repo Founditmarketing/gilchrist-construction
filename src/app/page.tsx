@@ -7,7 +7,6 @@ import GcSchema from "./_components/GcSchema";
 import GcSeam from "./_components/GcSeam";
 import { Reveal } from "./_components/Reveal";
 import { CAPABILITIES, PROJECTS } from "./site";
-import { JOBS } from "./jobs";
 
 const DOCUMENTED = PROJECTS.filter((p) => !p.hq).length;
 
@@ -109,13 +108,13 @@ export default function HomePage() {
                 Your name on<br /><span className="gc-hot">the next bridge.</span>
               </h2>
               <p className="gc-body-lg mt-6 max-w-lg text-[var(--gc-text-muted)]">
-                Gilchrist is hiring across Louisiana and we hire for the long haul. Browse {JOBS.length} trades and
-                apply right here — no third-party portal.
+                Gilchrist is hiring across Louisiana and we hire for the long haul. Browse the trades we
+                hire for and apply right here — no third-party portal.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Link href="/careers" className="gc-btn gc-btn-primary gc-focus !py-[1.05rem] sm:!px-7">
                   <HardHat size={18} weight="fill" aria-hidden="true" />
-                  See all {JOBS.length} open roles
+                  See open roles
                 </Link>
                 <Link href="/careers/apply" className="gc-btn gc-btn-steel gc-focus !py-[1.05rem] sm:!px-7">
                   General application

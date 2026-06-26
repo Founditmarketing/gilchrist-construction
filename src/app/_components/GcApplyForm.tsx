@@ -34,7 +34,7 @@ function Field({
   const id = useId();
   const errId = `${id}-err`;
   const hintId = `${id}-hint`;
-  const describedBy = [error ? errId : null, hint ? hintId : null].filter(Boolean).join(" ") || undefined;
+  const describedBy = [error ? errId : null, hint && !error ? hintId : null].filter(Boolean).join(" ") || undefined;
   return (
     <div>
       <label htmlFor={id} className="gc-label">
@@ -75,6 +75,10 @@ export default function GcApplyForm({ position, category }: { position: string; 
   const e = state.errors ?? {};
   const errBannerRef = useRef<HTMLParagraphElement>(null);
   const formRef = useRef<HTMLFormElement>(null);
+  const successRef = useRef<HTMLDivElement>(null);
+  const step1Ref = useRef<HTMLDivElement>(null);
+  const step2Ref = useRef<HTMLDivElement>(null);
+  const pendingFocus = useRef(false);
   const [step, setStep] = useState<1 | 2>(1);
 
   useEffect(() => {
@@ -86,9 +90,23 @@ export default function GcApplyForm({ position, category }: { position: string; 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
 
+  // Move focus into the newly shown step on user-driven navigation (the error
+  // jump above keeps focus on the error summary instead).
+  useEffect(() => {
+    if (!pendingFocus.current) return;
+    pendingFocus.current = false;
+    const panel = step === 1 ? step1Ref.current : step2Ref.current;
+    panel?.querySelector<HTMLElement>("input:not([type=hidden]), select, textarea")?.focus();
+  }, [step]);
+
+  // Reliably announce the confirmation by moving focus to the success card.
+  useEffect(() => {
+    if (state.status === "success") successRef.current?.focus();
+  }, [state.status]);
+
   if (state.status === "success") {
     return (
-      <div className="gc-card p-7 sm:p-9" role="status" aria-live="polite">
+      <div ref={successRef} tabIndex={-1} className="gc-card gc-focus p-7 sm:p-9" role="status" aria-live="polite">
         <span className="grid h-12 w-12 place-items-center rounded-[3px] bg-[var(--gc-hi)] text-[#160f00]">
           <CheckCircle size={26} weight="fill" aria-hidden="true" />
         </span>
@@ -121,6 +139,7 @@ export default function GcApplyForm({ position, category }: { position: string; 
         return;
       }
     }
+    pendingFocus.current = true;
     setStep(2);
   }
 
@@ -142,7 +161,7 @@ export default function GcApplyForm({ position, category }: { position: string; 
       )}
 
       {/* ── STEP 1 · You ── */}
-      <div hidden={step === 2}>
+      <div ref={step1Ref} hidden={step === 2}>
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label="Full name" required error={e.fullName}>
             {({ id, describedBy, invalid }) => (
@@ -179,7 +198,7 @@ export default function GcApplyForm({ position, category }: { position: string; 
       </div>
 
       {/* ── STEP 2 · Experience ── */}
-      <div hidden={step === 1}>
+      <div ref={step2Ref} hidden={step === 1}>
         <div className="grid gap-4 sm:grid-cols-2">
           <Field label="Years of experience">
             {({ id }) => (
@@ -216,13 +235,14 @@ export default function GcApplyForm({ position, category }: { position: string; 
         </div>
 
         <div className="mt-4 grid gap-4 sm:grid-cols-2">
-          <Field label="Résumé (optional)" hint="PDF, Word, or text — under 5 MB.">
-            {({ id, describedBy }) => (
+          <Field label="Résumé (optional)" hint="PDF, Word, or text — under 5 MB." error={e.resume}>
+            {({ id, describedBy, invalid }) => (
               <input
                 id={id}
                 name="resume"
                 type="file"
                 accept=".pdf,.doc,.docx,.txt,.rtf"
+                aria-invalid={invalid}
                 aria-describedby={describedBy}
                 className="gc-input !py-2.5 text-[0.85rem] file:mr-3 file:cursor-pointer file:rounded-[3px] file:border-0 file:bg-[var(--gc-panel-2)] file:px-3 file:py-1.5 file:text-[0.8rem] file:text-[var(--gc-text)]"
               />

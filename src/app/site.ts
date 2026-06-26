@@ -49,10 +49,6 @@ export const SOCIAL = {
 // Employee portal on the legacy site — kept as an external link, not rebuilt.
 export const EMPLOYEE_LOGIN_HREF = "https://www.gilchristconstruction.com/login";
 
-// The live "Work With Us" careers page — real apply path until a native job
-// board is built. Replaces the placeholder "coming soon" treatment.
-export const WORK_WITH_US_HREF = "https://www.gilchristconstruction.com/work-with-us";
-
 /** A field still holding a fill-in token like "‹add …›". */
 export const isPlaceholder = (v: string) => v.trim().startsWith("‹");
 

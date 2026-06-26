@@ -66,7 +66,7 @@ export default function CareersPage() {
       <section className="border-b border-[var(--gc-line)] bg-[var(--gc-panel)]">
         <div className="mx-auto max-w-7xl px-5 py-16 sm:px-8 sm:py-24">
           <Reveal>
-            <p className="gc-station-quiet mb-7">THE PATH IN</p>
+            <h2 className="gc-station-quiet mb-7">THE PATH IN</h2>
             <ol className="grid gap-x-6 gap-y-9 sm:grid-cols-2 lg:grid-cols-4">
               {PATH.map((s) => (
                 <li key={s.title} className="border-t border-[var(--gc-line-strong)] pt-5">
