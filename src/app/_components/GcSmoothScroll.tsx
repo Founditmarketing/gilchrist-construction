@@ -1,13 +1,18 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 
-/** Lenis momentum smooth-scroll, scoped to /gilchrist (mounted in the route
- *  layout, destroyed on unmount so it never leaks into the Chill app or the
- *  other showcase routes). Anchor clicks are routed through Lenis for a smooth
- *  glide to each STA section. Fully disabled under prefers-reduced-motion. */
+/** Lenis momentum smooth-scroll for the whole site (mounted once in GcShell).
+ *  Anchor clicks glide to their STA section; on every route change we snap the
+ *  scroll back to the top, because Lenis keeps its own virtual scroll position
+ *  and would otherwise drop you mid-page (or at the bottom of a shorter page)
+ *  on navigation. Fully disabled under prefers-reduced-motion. */
 export default function GcSmoothScroll() {
+  const pathname = usePathname();
+  const lenisRef = useRef<Lenis | null>(null);
+
   useEffect(() => {
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
@@ -17,6 +22,7 @@ export default function GcSmoothScroll() {
       wheelMultiplier: 1,
       touchMultiplier: 1.4,
     });
+    lenisRef.current = lenis;
 
     let raf = 0;
     const loop = (time: number) => {
@@ -45,9 +51,17 @@ export default function GcSmoothScroll() {
     return () => {
       cancelAnimationFrame(raf);
       document.removeEventListener("click", onClick);
+      lenisRef.current = null;
       lenis.destroy();
     };
   }, []);
+
+  // Snap to the top of every newly navigated page (Lenis otherwise retains the
+  // prior page's scroll offset). Runs on mount too, which is a harmless no-op.
+  useEffect(() => {
+    if (lenisRef.current) lenisRef.current.scrollTo(0, { immediate: true });
+    else window.scrollTo(0, 0);
+  }, [pathname]);
 
   return null;
 }

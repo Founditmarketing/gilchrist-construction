@@ -44,7 +44,7 @@ export default function HomePage() {
                 {CAPABILITIES.map((c) => (
                   <li key={c.key}>
                     <Link
-                      href="/what-we-build"
+                      href={`/what-we-build/${c.key}`}
                       className="gc-focus group flex items-baseline justify-between gap-4 border-b border-[var(--gc-line)] py-5 transition-colors hover:text-[var(--gc-hi)]"
                     >
                       <span className="gc-display text-[1.5rem] leading-none text-[var(--gc-text)] transition-colors group-hover:text-[var(--gc-hi)]">

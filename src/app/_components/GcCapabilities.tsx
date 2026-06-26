@@ -1,4 +1,6 @@
 import Image from "next/image";
+import Link from "next/link";
+import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import { CAPABILITIES } from "../site";
 import { Reveal } from "./Reveal";
 
@@ -36,11 +38,20 @@ function ProofChip({ label }: { label: string }) {
   );
 }
 
+/** The "view service" affordance — every card is a link to its own page. */
+function ViewService() {
+  return (
+    <span className="mt-5 inline-flex items-center gap-1.5 gc-mono text-[0.68rem] tracking-[0.1em] text-[var(--gc-text-muted)] transition-colors group-hover:text-[var(--gc-hi)]">
+      VIEW SERVICE
+      <ArrowRight size={14} weight="bold" className="transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
+    </span>
+  );
+}
+
 /** The capability WALL — an editorial composition, not five equal cards. A
  *  full-width Bridges feature, a strong image-forward Asphalt/Concrete pair, and
  *  a compact Earthwork/Design-Build support row create three distinct rhythms.
- *  Every photo carries the cohesive .gc-cap-img grade so the imagery reads as one
- *  shoot. (Same factual content as before — only the composition is elevated.) */
+ *  Every card links to its own dedicated service page. */
 export default function GcCapabilities() {
   const featured = CAPABILITIES.find((c) => c.key === "bridges")!;
   const pair = ["asphalt", "concrete"].map((k) => CAPABILITIES.find((c) => c.key === k)!);
@@ -57,65 +68,71 @@ export default function GcCapabilities() {
         <p className="gc-body-lg mt-5 max-w-xl">
           Most contractors sub out the hard parts. Gilchrist owns them — production
           plants, paving crews, and one of Louisiana&rsquo;s deepest bridge teams,
-          all under one roof.
+          all under one roof. Open a service for the detail.
         </p>
       </Reveal>
 
       {/* ── Feature: Bridges & Structures — the differentiator, full-width ── */}
       <Reveal>
-        <article className="gc-cap gc-card relative grid overflow-hidden lg:grid-cols-[1.15fr_0.85fr]">
-          <div className="relative aspect-[16/10] overflow-hidden lg:aspect-auto lg:min-h-[500px]">
-            <Image
-              src={featured.img}
-              alt="Gilchrist bridge and structures work in Louisiana"
-              fill
-              sizes="(max-width:1024px) 100vw, 55vw"
-              className="gc-cap-img object-cover"
-            />
-            <div
-              className="pointer-events-none absolute inset-0 lg:hidden"
-              style={{ background: "linear-gradient(180deg, transparent 45%, rgba(12,14,15,0.92) 100%)" }}
-              aria-hidden="true"
-            />
-            <span className="absolute left-5 top-5"><IconChip src={featured.icon} /></span>
-          </div>
-          <div className="flex flex-col justify-center p-8 sm:p-12">
-            <p className="gc-mono mb-3 text-[0.62rem] tracking-[0.2em] text-[var(--gc-hi)]">PILE TO DECK · FIXED &amp; MOVEABLE</p>
-            <h3 className="gc-display-md text-[var(--gc-text)]">{featured.name}</h3>
-            <p className="mt-3 max-w-md text-[0.98rem] leading-relaxed text-[var(--gc-text-muted)]">
-              {featured.blurb}
-            </p>
-          </div>
-        </article>
+        <Link href={`/what-we-build/${featured.key}`} className="gc-focus group block">
+          <article className="gc-cap gc-card relative grid overflow-hidden transition-colors group-hover:border-[var(--gc-hi-deep)] lg:grid-cols-[1.15fr_0.85fr]">
+            <div className="relative aspect-[16/10] overflow-hidden lg:aspect-auto lg:min-h-[500px]">
+              <Image
+                src={featured.img}
+                alt="Gilchrist bridge and structures work in Louisiana"
+                fill
+                sizes="(max-width:1024px) 100vw, 55vw"
+                className="gc-cap-img object-cover"
+              />
+              <div
+                className="pointer-events-none absolute inset-0 lg:hidden"
+                style={{ background: "linear-gradient(180deg, transparent 45%, rgba(12,14,15,0.92) 100%)" }}
+                aria-hidden="true"
+              />
+              <span className="absolute left-5 top-5"><IconChip src={featured.icon} /></span>
+            </div>
+            <div className="flex flex-col justify-center p-8 sm:p-12">
+              <p className="gc-mono mb-3 text-[0.62rem] tracking-[0.2em] text-[var(--gc-hi)]">PILE TO DECK · FIXED &amp; MOVEABLE</p>
+              <h3 className="gc-display-md text-[var(--gc-text)]">{featured.name}</h3>
+              <p className="mt-3 max-w-md text-[0.98rem] leading-relaxed text-[var(--gc-text-muted)]">
+                {featured.blurb}
+              </p>
+              <ViewService />
+            </div>
+          </article>
+        </Link>
       </Reveal>
 
       {/* ── Strong pair: Asphalt + Concrete — image-forward, name set on the photo ── */}
       <div className="mt-6 grid gap-4 sm:mt-8 lg:grid-cols-2">
         {pair.map((c, i) => (
           <Reveal key={c.key} delay={i * 0.06}>
-            <article className="gc-cap gc-card relative flex h-full flex-col overflow-hidden">
-              <div className="relative aspect-[16/10] overflow-hidden">
-                <Image
-                  src={c.img}
-                  alt={`Gilchrist ${c.name.toLowerCase()} work in Louisiana`}
-                  fill
-                  sizes="(max-width:1024px) 100vw, 50vw"
-                  className="gc-cap-img object-cover"
-                />
-                <div
-                  className="pointer-events-none absolute inset-0"
-                  style={{ background: "linear-gradient(180deg, transparent 38%, rgba(12,14,15,0.92) 100%)" }}
-                  aria-hidden="true"
-                />
-                <span className="absolute left-4 top-4"><IconChip src={c.icon} /></span>
-                <h3 className="gc-display-md absolute bottom-5 left-6 right-6 text-[var(--gc-text)]">{c.name}</h3>
-              </div>
-              <div className="flex flex-1 flex-col p-6">
-                <p className="text-[0.95rem] leading-relaxed text-[var(--gc-text-muted)]">{c.blurb}</p>
-                {c.proof && <ProofChip label={c.proof} />}
-                <DetailTags items={c.detail} />
-              </div>
-            </article>
+            <Link href={`/what-we-build/${c.key}`} className="gc-focus group block h-full">
+              <article className="gc-cap gc-card relative flex h-full flex-col overflow-hidden transition-colors group-hover:border-[var(--gc-hi-deep)]">
+                <div className="relative aspect-[16/10] overflow-hidden">
+                  <Image
+                    src={c.img}
+                    alt={`Gilchrist ${c.name.toLowerCase()} work in Louisiana`}
+                    fill
+                    sizes="(max-width:1024px) 100vw, 50vw"
+                    className="gc-cap-img object-cover"
+                  />
+                  <div
+                    className="pointer-events-none absolute inset-0"
+                    style={{ background: "linear-gradient(180deg, transparent 38%, rgba(12,14,15,0.92) 100%)" }}
+                    aria-hidden="true"
+                  />
+                  <span className="absolute left-4 top-4"><IconChip src={c.icon} /></span>
+                  <h3 className="gc-display-md absolute bottom-5 left-6 right-6 text-[var(--gc-text)]">{c.name}</h3>
+                </div>
+                <div className="flex flex-1 flex-col p-6">
+                  <p className="text-[0.95rem] leading-relaxed text-[var(--gc-text-muted)]">{c.blurb}</p>
+                  {c.proof && <ProofChip label={c.proof} />}
+                  <DetailTags items={c.detail} />
+                  <ViewService />
+                </div>
+              </article>
+            </Link>
           </Reveal>
         ))}
       </div>
@@ -124,22 +141,25 @@ export default function GcCapabilities() {
       <div className="mt-6 grid gap-4 sm:mt-8 lg:grid-cols-2">
         {support.map((c, i) => (
           <Reveal key={c.key} delay={i * 0.06}>
-            <article className="gc-cap gc-card relative grid overflow-hidden sm:grid-cols-[0.85fr_1.15fr]">
-              <div className="relative aspect-[4/3] overflow-hidden sm:aspect-auto sm:min-h-[220px]">
-                <Image
-                  src={c.img}
-                  alt={`Gilchrist ${c.name.toLowerCase()} work in Louisiana`}
-                  fill
-                  sizes="(max-width:1024px) 100vw, 25vw"
-                  className="gc-cap-img object-cover"
-                />
-                <span className="absolute left-4 top-4"><IconChip src={c.icon} /></span>
-              </div>
-              <div className="flex flex-col justify-center p-6">
-                <h3 className="gc-display text-[1.22rem] text-[var(--gc-text)]">{c.name}</h3>
-                <p className="mt-2 text-[0.9rem] leading-relaxed text-[var(--gc-text-muted)]">{c.blurb}</p>
-              </div>
-            </article>
+            <Link href={`/what-we-build/${c.key}`} className="gc-focus group block h-full">
+              <article className="gc-cap gc-card relative grid overflow-hidden transition-colors group-hover:border-[var(--gc-hi-deep)] sm:grid-cols-[0.85fr_1.15fr]">
+                <div className="relative aspect-[4/3] overflow-hidden sm:aspect-auto sm:min-h-[220px]">
+                  <Image
+                    src={c.img}
+                    alt={`Gilchrist ${c.name.toLowerCase()} work in Louisiana`}
+                    fill
+                    sizes="(max-width:1024px) 100vw, 25vw"
+                    className="gc-cap-img object-cover"
+                  />
+                  <span className="absolute left-4 top-4"><IconChip src={c.icon} /></span>
+                </div>
+                <div className="flex flex-col justify-center p-6">
+                  <h3 className="gc-display text-[1.22rem] text-[var(--gc-text)]">{c.name}</h3>
+                  <p className="mt-2 text-[0.9rem] leading-relaxed text-[var(--gc-text-muted)]">{c.blurb}</p>
+                  <ViewService />
+                </div>
+              </article>
+            </Link>
           </Reveal>
         ))}
       </div>

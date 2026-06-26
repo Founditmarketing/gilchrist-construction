@@ -94,6 +94,9 @@ export type Capability = {
   detail: string[];  // the sub-disciplines, for the expanded copy
   pos?: string;      // object-position crop override
   proof?: string;    // one honest operational proof chip (rendered in the grid)
+  lead?: string;     // longer intro for the dedicated service page
+  includes?: { title: string; body: string }[]; // sub-disciplines + descriptions (service page)
+  relatedDiscipline?: Discipline; // maps to PROJECTS for the service page's related work
 };
 
 export const CAPABILITIES: Capability[] = [
@@ -105,6 +108,14 @@ export const CAPABILITIES: Capability[] = [
     blurb: "We run hot-mix production and lay-down crews in-house — production and paving under one roof.",
     detail: ["Asphalt production", "Mainline & overlay paving", "Milling & resurfacing"],
     proof: "Hot-mix production in-house",
+    lead:
+      "Gilchrist runs its own hot-mix production and lay-down crews, so the mix, the schedule, and the mat quality stay under one roof. From interstate overlays to mainline paving, we self-perform the work most contractors sub out.",
+    includes: [
+      { title: "Hot-mix asphalt production", body: "Plant-produced mix to DOTD spec, so material and schedule aren't at the mercy of a third-party supplier." },
+      { title: "Mainline & overlay paving", body: "Interstate-scale laydown, from full-depth mainline to mill-and-overlay resurfacing, including OGFC and Superpave surfaces." },
+      { title: "Milling & resurfacing", body: "Cold milling, profiling, and pavement reconstruction to bring worn corridors back to grade." },
+    ],
+    relatedDiscipline: "Asphalt",
   },
   {
     key: "bridges",
@@ -114,6 +125,15 @@ export const CAPABILITIES: Capability[] = [
     blurb: "Bridge crews we keep in-house — pile to deck, fixed and moveable, self-performed.",
     detail: ["Pile driving", "Prefabricated foundations", "Steel structures", "Moveable bridges"],
     proof: "Pile to deck",
+    lead:
+      "One of Louisiana's deepest bridge teams — 80-plus members with 380-plus combined years — building structures from the pile up. Fixed and moveable, over water and at height, self-performed pile to deck.",
+    includes: [
+      { title: "Pile driving & foundations", body: "Driven and prefabricated foundations, set by our own crews and crane operators." },
+      { title: "Steel & concrete structures", body: "Setting precast and steel girders, then forming and pouring decks and substructure." },
+      { title: "Moveable bridges", body: "Mechanical and structural work on moveable spans, the specialized end of the bridge trade." },
+      { title: "Replacement & widening", body: "Removing and replacing aging structures, often staged under live traffic." },
+    ],
+    relatedDiscipline: "Bridges",
   },
   {
     key: "concrete",
@@ -123,6 +143,13 @@ export const CAPABILITIES: Capability[] = [
     blurb: "Concrete production and paving for mainline highway, ramps, and curb-and-gutter.",
     detail: ["Concrete production", "Mainline paving", "Curb, gutter & flatwork"],
     proof: "Production & paving in-house",
+    lead:
+      "Concrete production and paving for the parts of the job that have to last: mainline highway, ramps, and the curb-and-gutter detail that frames every corridor.",
+    includes: [
+      { title: "Concrete production", body: "In-house production keeps mix and schedule aligned with the paving crew." },
+      { title: "Mainline & ramp paving", body: "Slip-form and fixed-form paving for highway mainline, ramps, and intersections." },
+      { title: "Curb, gutter & flatwork", body: "The finish work: curb and gutter, barrier, sidewalk, and structural flatwork." },
+    ],
   },
   {
     key: "earthwork",
@@ -132,6 +159,13 @@ export const CAPABILITIES: Capability[] = [
     blurb: "We move the dirt, set the grade, and build the base the whole job stands on.",
     detail: ["Mass & roadway excavation", "Embankment & grading", "Drainage & base"],
     proof: "Self-performed civil",
+    lead:
+      "Before the road, the grade. Gilchrist moves the dirt, sets the line, and builds the base the whole job stands on — self-performed civil from clearing to cement-treated base.",
+    includes: [
+      { title: "Mass & roadway excavation", body: "Clearing, grubbing, and moving earth to open the corridor and cut to grade." },
+      { title: "Embankment & grading", body: "Building and compacting embankment, then fine-grading to survey line and slope." },
+      { title: "Drainage & base", body: "Storm drainage, subgrade treatment, and base course — the structure under the pavement." },
+    ],
   },
   {
     key: "design-build",
@@ -141,6 +175,14 @@ export const CAPABILITIES: Capability[] = [
     blurb: "One accountable team from concept to ribbon-cutting — design and construction aligned.",
     detail: ["Alternative delivery", "Constructability", "Self-performed scope"],
     proof: "One accountable team",
+    lead:
+      "One accountable team from concept to ribbon-cutting. On design-build and alternative-delivery projects, Gilchrist aligns design and construction with the self-perform crews to back it up — including Louisiana's first diverging diamond interchange.",
+    includes: [
+      { title: "Alternative delivery", body: "Design-build and other alternative-delivery procurements, with a single point of accountability." },
+      { title: "Constructability", body: "Design decisions made with the crews who'll build them, so the plan and the field agree." },
+      { title: "Self-performed scope", body: "The asphalt, concrete, bridge, and earthwork scope kept in-house, not handed to subs." },
+    ],
+    relatedDiscipline: "Interchanges",
   },
 ];
 
