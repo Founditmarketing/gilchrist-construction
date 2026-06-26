@@ -4,7 +4,7 @@ import { useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
-import { ArrowRight, MapTrifold } from "@phosphor-icons/react";
+import { MapTrifold } from "@phosphor-icons/react";
 import { PROJECTS } from "../site";
 import { Reveal } from "./Reveal";
 

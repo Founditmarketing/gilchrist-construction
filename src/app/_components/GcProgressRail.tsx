@@ -23,24 +23,37 @@ export default function GcProgressRail() {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
-    const obs = new IntersectionObserver(
-      (entries) => entries.forEach((e) => { if (e.isIntersecting) setActive(e.target.id); }),
-      { rootMargin: "-45% 0px -50% 0px", threshold: 0 },
-    );
-    SECTIONS.forEach((s) => { const el = document.getElementById(s.id); if (el) obs.observe(el); });
+    // The rail only renders at xl+. Don't run the IntersectionObserver + scroll
+    // handler on smaller screens — that's wasted work on the field phones the
+    // rail is hidden on. Re-sync if the viewport crosses the xl breakpoint.
+    const mq = window.matchMedia("(min-width: 1280px)");
+    let cleanup: (() => void) | null = null;
 
-    let raf = 0;
-    const onScroll = () => {
-      cancelAnimationFrame(raf);
-      raf = requestAnimationFrame(() => {
-        const h = document.documentElement;
-        const max = h.scrollHeight - h.clientHeight;
-        setProgress(max > 0 ? Math.min(h.scrollTop / max, 1) : 0);
-      });
+    const start = () => {
+      const obs = new IntersectionObserver(
+        (entries) => entries.forEach((e) => { if (e.isIntersecting) setActive(e.target.id); }),
+        { rootMargin: "-45% 0px -50% 0px", threshold: 0 },
+      );
+      SECTIONS.forEach((s) => { const el = document.getElementById(s.id); if (el) obs.observe(el); });
+
+      let raf = 0;
+      const onScroll = () => {
+        cancelAnimationFrame(raf);
+        raf = requestAnimationFrame(() => {
+          const h = document.documentElement;
+          const max = h.scrollHeight - h.clientHeight;
+          setProgress(max > 0 ? Math.min(h.scrollTop / max, 1) : 0);
+        });
+      };
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+      cleanup = () => { obs.disconnect(); window.removeEventListener("scroll", onScroll); cancelAnimationFrame(raf); };
     };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => { obs.disconnect(); window.removeEventListener("scroll", onScroll); cancelAnimationFrame(raf); };
+
+    const sync = () => { cleanup?.(); cleanup = null; if (mq.matches) start(); };
+    sync();
+    mq.addEventListener("change", sync);
+    return () => { cleanup?.(); mq.removeEventListener("change", sync); };
   }, []);
 
   // Live interpolated station: e.g. progress 0.5 → "STA 17+40".

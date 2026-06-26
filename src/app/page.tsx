@@ -35,7 +35,7 @@ export default function HomePage() {
           <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-center lg:gap-16">
             <Reveal>
               <p className="mb-6 inline-flex items-center gap-2.5">
-                <span className="gc-pulse inline-block h-2 w-2 rounded-full bg-[#5ed184]" aria-hidden="true" />
+                <span className="gc-pulse inline-block h-2 w-2 rounded-full bg-[var(--gc-hi-bright)]" aria-hidden="true" />
                 <span className="gc-station-quiet">STA 20+00 · NOW HIRING</span>
               </p>
               <h2 className="gc-display-lg text-[var(--gc-text)]">

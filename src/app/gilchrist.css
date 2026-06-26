@@ -432,8 +432,8 @@ html.lenis, html.lenis body { height: auto; }
 
 /* Live "now hiring / open" pulse — the one continuously-moving status element. */
 @keyframes gcPulse {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(94, 209, 132, 0.45); }
-  50% { box-shadow: 0 0 0 5px rgba(94, 209, 132, 0); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(92, 201, 61, 0.45); }
+  50% { box-shadow: 0 0 0 5px rgba(92, 201, 61, 0); }
 }
 .gc-pulse { animation: gcPulse 2.6s ease-in-out infinite; }
 
