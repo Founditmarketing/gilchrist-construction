@@ -1,14 +1,13 @@
 import Link from "next/link";
-import Image from "next/image";
-import { ArrowRight, HardHat, MapTrifold } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRight, HardHat } from "@phosphor-icons/react/dist/ssr";
 import GcHero from "./_components/GcHero";
 import GcProof from "./_components/GcProof";
 import GcSchema from "./_components/GcSchema";
 import GcSeam from "./_components/GcSeam";
+import GcCapabilitiesReadout from "./_components/GcCapabilitiesReadout";
+import GcFootprintTease from "./_components/GcFootprintTease";
+import GcCrewBeat from "./_components/GcCrewBeat";
 import { Reveal } from "./_components/Reveal";
-import { CAPABILITIES, PROJECTS } from "./site";
-
-const DOCUMENTED = PROJECTS.filter((p) => !p.hq).length;
 
 const TRADES = ["Equipment Operators", "CDL Drivers", "Bridge Crews", "Concrete Finishers", "Asphalt Crews", "Foremen", "Mechanics"];
 
@@ -19,78 +18,13 @@ export default function HomePage() {
       <GcProof />
 
       <GcSeam sta="4+20" />
-
-      {/* ── What we build — teaser into /what-we-build ── */}
-      <section id="capabilities" className="relative border-b border-[var(--gc-line)] bg-[var(--gc-ground)] gc-grid-lines">
-        <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-28">
-          <div className="grid gap-10 lg:grid-cols-[0.95fr_1.05fr] lg:gap-16">
-            <Reveal>
-              <p className="gc-station mb-5">STA 4+20 · WHAT WE SELF-PERFORM</p>
-              <h2 className="gc-display-lg text-[var(--gc-text)]">
-                One company.<br /><span className="gc-hot">The whole job.</span>
-              </h2>
-              <p className="gc-body-lg mt-6 max-w-md text-[var(--gc-text-muted)]">
-                Asphalt, concrete, bridges, earthwork, and design-build: production and crews under one roof, so the
-                standard is ours to hold from base course to bridge deck.
-              </p>
-              <Link href="/what-we-build" className="gc-btn gc-btn-ghost gc-focus mt-8 !py-[0.95rem] sm:!px-6">
-                See what we self-perform
-                <ArrowRight size={17} weight="bold" aria-hidden="true" />
-              </Link>
-            </Reveal>
-
-            <Reveal delay={0.08}>
-              <ul className="border-t border-[var(--gc-line)]">
-                {CAPABILITIES.map((c) => (
-                  <li key={c.key}>
-                    <Link
-                      href={`/what-we-build/${c.key}`}
-                      className="gc-focus group flex items-baseline justify-between gap-4 border-b border-[var(--gc-line)] py-5 transition-colors hover:text-[var(--gc-hi)]"
-                    >
-                      <span className="gc-display text-[1.5rem] leading-none text-[var(--gc-text)] transition-colors group-hover:text-[var(--gc-hi)]">
-                        {c.name}
-                      </span>
-                      <span className="gc-mono max-w-[12rem] text-right text-[0.66rem] leading-snug tracking-[0.08em] text-[var(--gc-text-faint)]">
-                        {c.proof}
-                      </span>
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
-          </div>
-        </div>
-      </section>
+      <GcCapabilitiesReadout />
 
       <GcSeam sta="8+10" />
+      <GcFootprintTease />
 
-      {/* ── Built across Louisiana — teaser into /projects ── */}
-      <section id="map" className="relative isolate overflow-hidden border-b border-[var(--gc-line)]">
-        <Image
-          src="/gilchrist/raw/field-4.jpg"
-          alt=""
-          fill
-          sizes="100vw"
-          className="-z-10 gc-img object-cover opacity-[0.22]"
-        />
-        <div className="absolute inset-0 -z-10 bg-[linear-gradient(180deg,var(--gc-ground)_0%,rgba(12,14,15,0.82)_55%,var(--gc-ground)_100%)]" aria-hidden="true" />
-        <div className="mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-28">
-          <Reveal className="max-w-2xl">
-            <p className="gc-station mb-5">STA 8+10 · THE FOOTPRINT</p>
-            <h2 className="gc-display-lg text-[var(--gc-text)]">
-              Every pin is a road<br /><span className="gc-hot">Louisiana drives on.</span>
-            </h2>
-            <p className="gc-body-lg mt-6 max-w-lg text-[var(--gc-text-muted)]">
-              {DOCUMENTED} documented DOTD interchanges, bridges, and interstate corridors across the state, including
-              Louisiana&apos;s first diverging diamond interchange.
-            </p>
-            <Link href="/projects" className="gc-btn gc-btn-primary gc-focus mt-8 !py-[1rem] sm:!px-7">
-              <MapTrifold size={18} weight="fill" aria-hidden="true" />
-              Explore where we build
-            </Link>
-          </Reveal>
-        </div>
-      </section>
+      {/* The one cinematic peak — the bridge crew, condensed (STA 16+50) */}
+      <GcCrewBeat />
 
       <GcSeam sta="20+00" />
 
@@ -127,7 +61,10 @@ export default function HomePage() {
                 <p className="gc-mono text-[0.62rem] tracking-[0.2em] text-[var(--gc-hi)]">THE CREWS WE&apos;RE BUILDING</p>
                 <ul className="mt-5 flex flex-wrap gap-2.5">
                   {TRADES.map((t) => (
-                    <li key={t} className="rounded-[3px] border border-[var(--gc-line-strong)] bg-[var(--gc-panel-2)] px-3 py-1.5 text-[0.82rem] text-[var(--gc-text-muted)]">
+                    <li
+                      key={t}
+                      className="rounded-[3px] border border-[var(--gc-line-strong)] bg-[var(--gc-panel-2)] px-3 py-1.5 text-[0.82rem] text-[var(--gc-text-muted)] transition-[transform,border-color,color] duration-200 hover:-translate-y-0.5 hover:border-[var(--gc-hi-deep)] hover:text-[var(--gc-text)]"
+                    >
                       {t}
                     </li>
                   ))}
@@ -155,7 +92,7 @@ export default function HomePage() {
           </Reveal>
           <div className="grid gap-4 sm:grid-cols-2">
             <Reveal>
-              <Link href="/contact" className="gc-focus group gc-card flex h-full flex-col justify-between gap-8 p-7 transition-colors hover:border-[var(--gc-hi-deep)] sm:p-9">
+              <Link href="/contact" className="gc-focus group gc-card relative flex h-full flex-col justify-between gap-8 overflow-hidden p-7 transition-colors hover:border-[var(--gc-hi-deep)] sm:p-9">
                 <div>
                   <p className="gc-mono text-[0.62rem] tracking-[0.2em] text-[var(--gc-hi)]">OWNERS &amp; AGENCIES</p>
                   <h3 className="gc-display-md mt-3 text-[var(--gc-text)]">Request a bid</h3>
@@ -166,10 +103,11 @@ export default function HomePage() {
                 <span className="inline-flex items-center gap-2 gc-mono text-[0.72rem] tracking-[0.1em] text-[var(--gc-text-muted)] transition-colors group-hover:text-[var(--gc-hi)]">
                   REQUEST A BID <ArrowRight size={15} weight="bold" className="transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
                 </span>
+                <span className="pointer-events-none absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 bg-[var(--gc-hi)] transition-transform duration-300 ease-out group-hover:scale-x-100" aria-hidden="true" />
               </Link>
             </Reveal>
             <Reveal delay={0.06}>
-              <Link href="/careers" className="gc-focus group gc-card flex h-full flex-col justify-between gap-8 p-7 transition-colors hover:border-[var(--gc-steel)] sm:p-9">
+              <Link href="/careers" className="gc-focus group gc-card relative flex h-full flex-col justify-between gap-8 overflow-hidden p-7 transition-colors hover:border-[var(--gc-steel)] sm:p-9">
                 <div>
                   <p className="gc-mono text-[0.62rem] tracking-[0.2em] text-[var(--gc-steel)]">CREWS &amp; TRADES</p>
                   <h3 className="gc-display-md mt-3 text-[var(--gc-text)]">Build a career</h3>
@@ -180,6 +118,7 @@ export default function HomePage() {
                 <span className="inline-flex items-center gap-2 gc-mono text-[0.72rem] tracking-[0.1em] text-[var(--gc-text-muted)] transition-colors group-hover:text-[var(--gc-steel)]">
                   VIEW OPEN ROLES <ArrowRight size={15} weight="bold" className="transition-transform group-hover:translate-x-0.5" aria-hidden="true" />
                 </span>
+                <span className="pointer-events-none absolute bottom-0 left-0 h-0.5 w-full origin-left scale-x-0 bg-[var(--gc-steel)] transition-transform duration-300 ease-out group-hover:scale-x-100" aria-hidden="true" />
               </Link>
             </Reveal>
           </div>

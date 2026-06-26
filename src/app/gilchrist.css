@@ -437,6 +437,16 @@ html.lenis, html.lenis body { height: auto; }
 }
 .gc-pulse { animation: gcPulse 2.6s ease-in-out infinite; }
 
+/* Statewide parish marquee (footprint teaser) — content is duplicated, so a
+   -50% translate loops seamlessly; pauses on hover, edges feathered. */
+@keyframes gcMarquee { to { transform: translateX(-50%); } }
+.gc-marquee { animation: gcMarquee 40s linear infinite; will-change: transform; }
+.gc-marquee-mask:hover .gc-marquee { animation-play-state: paused; }
+.gc-marquee-mask {
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+  mask-image: linear-gradient(90deg, transparent, #000 7%, #000 93%, transparent);
+}
+
 /* Skip link — off-screen until focused. */
 .gc-skip {
   position: fixed;
@@ -489,6 +499,7 @@ html.lenis, html.lenis body { height: auto; }
     transition-duration: 0.001ms !important;
   }
   .gc-pulse { animation: none !important; }
+  .gc-marquee { animation: none !important; transform: none !important; }
 }
 
 @media (max-width: 767px) {
